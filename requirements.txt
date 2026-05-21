@@ -1,0 +1,25 @@
+# Database
+sqlalchemy
+psycopg2-binary
+alembic
+
+# Scraping
+playwright
+requests
+
+# Data cleaning
+python-dotenv
+
+# Dashboard
+streamlit
+plotly
+pandas
+
+# Scheduling
+apscheduler
+
+# Exports
+openpyxl
+
+# Utilities
+loguru
