@@ -72,6 +72,10 @@ class PriceSnapshot(Base):
     review_count    : Mapped[int]               = mapped_column(Integer, server_default=text("0"), nullable=False)
     is_sponsored    : Mapped[bool]              = mapped_column(Boolean, server_default=text("false"), nullable=False)
     search_position : Mapped[Optional[int]]     = mapped_column(Integer, nullable=True)
+    
+    # ─── NEW FIELD ADDED HERE ───
+    source          : Mapped[str]               = mapped_column(String(50), server_default=text("'search'"), nullable=False)
+    
     scraped_at      : Mapped[datetime]          = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     # Relationship
