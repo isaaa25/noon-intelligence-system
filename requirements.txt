@@ -4,11 +4,10 @@ psycopg2-binary
 alembic
 
 # Scraping
-playwright
-requests
+patchright
+httpx
 
-# Data cleaning
-python-dotenv
+pydantic-settings
 
 # Dashboard
 streamlit
