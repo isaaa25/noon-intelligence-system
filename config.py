@@ -21,6 +21,9 @@ class Settings(BaseSettings):
     DELAY_MAX:          float = 5.0
     MAX_RETRIES:        int   = 3
     PAGES_PER_KEYWORD:  int   = 2
+    STORE_PAGES_SMALL:  int = 10 # Scrape upto 10 pages if store has <=150 products
+    STORE_PAGES_LARGE:  int = 4 # Scrape only 4 pages for large stores
+    STORE_SMALL_THRESHOLD: int = 150 # nbhits below this = small store 
 
     # ─── Alert Threshold ─────────────────────────────────────
     PRICE_DROP_THRESHOLD_PCT: float = 5.0
