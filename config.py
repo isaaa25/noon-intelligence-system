@@ -1,37 +1,63 @@
-import os
-from dotenv import load_dotenv
+# config.py
 
-load_dotenv()
+from functools import lru_cache
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-REQUIRED_VARS = ["DB_HOST","DB_PORT","DB_NAME","DB_USER","DB_PASSWORD"]
+class Settings(BaseSettings):
 
-missing = [var for var in REQUIRED_VARS if not os.getenv(var)]
+    # ─── Database ────────────────────────────────────────────
+    DB_HOST:     str
+    DB_PORT:     int
+    DB_NAME:     str
+    DB_USER:     str
+    DB_PASSWORD: str
 
-if missing:
-    raise EnvironmentError(
-        f"Missing required environment variables: {', '.join(missing)}\n"
-        f"Check your .env file"
+    # ─── ScrapeOps ───────────────────────────────────────────
+    SCRAPEOPS_API_KEY: str
+
+    # ─── Scraper Behaviour ───────────────────────────────────
+    DELAY_MIN:          float = 2.0
+    DELAY_MAX:          float = 5.0
+    MAX_RETRIES:        int   = 3
+    PAGES_PER_KEYWORD:  int   = 2
+
+    # ─── Alert Threshold ─────────────────────────────────────
+    PRICE_DROP_THRESHOLD_PCT: float = 5.0
+
+    # ─── User Agents ─────────────────────────────────────────
+    USER_AGENTS: list[str] = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
+    ]
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=True,
     )
-# let's make the database url 
 
-DATABASE_URL = (
-    f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
-    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-)
+    @property
+    def DATABASE_URL(self) -> str:
+        return (
+            f"postgresql+psycopg2://{self.DB_USER}:{self.DB_PASSWORD}"
+            f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        )
 
-# scraper settings 
-DELAY_MIN = 2.0
-DELAY_MAX = 5.0
-MAX_RETRIES = 3
-PAGES_PER_KEYWORD = 2 
 
-# alert settings 
-PRICE_DROP_THRESHOLD_PCT = 5.0
+@lru_cache
+def get_settings() -> Settings:
+    """
+    Returns cached Settings instance.
+    Called once at startup — .env is read once, validated once.
+    If any required variable is missing or wrong type,
+    the app crashes immediately with a clear Pydantic error.
+    Import this function everywhere you need settings.
+    """
+    return Settings()
 
-# User agents 
-USER_AGENTS = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
-]
+
+# Module-level instance for convenience
+# Import directly: from config import settings
+settings = get_settings()

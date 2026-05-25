@@ -9,7 +9,7 @@ from sqlalchemy.orm import (
 from datetime import datetime
 from decimal import Decimal
 from typing import Optional,List
-from config import DATABASE_URL
+from config import settings
 
 class Base(DeclarativeBase):
     pass
@@ -128,7 +128,7 @@ class ScrapeLog(Base):
     run_at              : Mapped[datetime]          = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
 # let's now create the engine and sesssion 
-engine = create_engine(DATABASE_URL,echo=False)
+engine = create_engine(settings.DATABASE_URL,echo=False)
 SessionLocal = sessionmaker(bind=engine)
 
 # init
