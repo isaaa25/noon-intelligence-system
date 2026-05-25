@@ -88,7 +88,7 @@ class PriceAlert(Base):
 
     __table_args__ = (
         CheckConstraint(
-            "alert_type IN ('price_drop', 'back_in_stock', 'out_of_stock', 'new_competitor')",
+            "alert_type IN ('price_drop', 'price_increase', 'out_of_stock', 'new_competitor','back_in_stock')",
             name="ck_price_alert_type"
         ),
     )

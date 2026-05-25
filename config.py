@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     STORE_SMALL_THRESHOLD: int = 150 # nbhits below this = small store 
 
     # ─── Alert Threshold ─────────────────────────────────────
-    PRICE_DROP_THRESHOLD_PCT: float = 5.0
+    PRICE_CHANGE_THRESHOLD_PCT: float = 5.0
 
     # ─── User Agents ─────────────────────────────────────────
     USER_AGENTS: list[str] = [
