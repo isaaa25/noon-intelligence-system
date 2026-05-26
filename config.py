@@ -28,6 +28,12 @@ class Settings(BaseSettings):
     # ─── Alert Threshold ─────────────────────────────────────
     PRICE_CHANGE_THRESHOLD_PCT: float = 5.0
 
+    SEARCH_KEYWORDS: list[str] = [
+        "iphone 15 pro max",
+        "samsung s24 ultra",
+        "macbook pro m3"
+    ]
+
     # ─── User Agents ─────────────────────────────────────────
     USER_AGENTS: list[str] = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
