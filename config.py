@@ -2,6 +2,7 @@
 
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import Optional
 
 
 class Settings(BaseSettings):
@@ -23,15 +24,30 @@ class Settings(BaseSettings):
     PAGES_PER_KEYWORD:  int   = 2
     STORE_PAGES_SMALL:  int = 10 # Scrape upto 10 pages if store has <=150 products
     STORE_PAGES_LARGE:  int = 4 # Scrape only 4 pages for large stores
-    STORE_SMALL_THRESHOLD: int = 150 # nbhits below this = small store 
+    STORE_SMALL_THRESHOLD: int = 150 # nbhits below this = small store
+    PROXY : Optional[dict] = None
+    # ── IPRoyal Proxy Configuration ──────────────────────────────
+    IPROYAL_USERNAME: str
+    IPROYAL_PASSWORD: str
+    IPROYAL_HOST: str = "geo.iproyal.com"
+    IPROYAL_HTTP_PORT: int = 11202
+    IPROYAL_SOCKS5_PORT: int = 11202
+    IPROYAL_COUNTRY: str = "ae"
+    IPROYAL_SESSION_LIFETIME: str = "168h"
+    PROXY_PROTOCOL: str = "http"
+    IPROYAL_SESSION_COUNT : int = 4
+
+    # ── Session Management ────────────────────────────────────────
+    SESSION_MAX_AGE_HOURS: int = 4
+    JWT_REFRESH_THRESHOLD_SECS: int = 90
+    BLOCK_COOLDOWN_MINS: int = 15
+    SESSION_BUNDLE_PATH: str = "data/session_bundle.json"
 
     # ─── Alert Threshold ─────────────────────────────────────
     PRICE_CHANGE_THRESHOLD_PCT: float = 5.0
 
     SEARCH_KEYWORDS: list[str] = [
-        "iphone 15 pro max",
-        "samsung s24 ultra",
-        "macbook pro m3"
+        "iphone 15 pro max"
     ]
 
     # ─── User Agents ─────────────────────────────────────────
@@ -46,6 +62,7 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         case_sensitive=True,
     )
+
 
     @property
     def DATABASE_URL(self) -> str:
