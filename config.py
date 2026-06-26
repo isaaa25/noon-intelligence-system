@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     DB_HOST:     str
     DB_PORT:     int
     DB_NAME:     str
+    DEMO_DB_NAME: str
     DB_USER:     str
     DB_PASSWORD: str
 
@@ -44,10 +45,10 @@ class Settings(BaseSettings):
     SESSION_BUNDLE_PATH: str = "data/session_bundle.json"
 
     # ─── Alert Threshold ─────────────────────────────────────
-    PRICE_CHANGE_THRESHOLD_PCT: float = 5.0
+    PRICE_CHANGE_THRESHOLD_PCT: float = 3.0
 
     SEARCH_KEYWORDS: list[str] = [
-        "iphone 15 pro max"
+        "iphone 15"
     ]
 
     # ─── User Agents ─────────────────────────────────────────
@@ -68,7 +69,7 @@ class Settings(BaseSettings):
     def DATABASE_URL(self) -> str:
         return (
             f"postgresql+psycopg2://{self.DB_USER}:{self.DB_PASSWORD}"
-            f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+            f"@{self.DB_HOST}:{self.DB_PORT}/{self.DEMO_DB_NAME}"
         )
 
 

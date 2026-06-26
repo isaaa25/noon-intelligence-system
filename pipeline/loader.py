@@ -121,8 +121,9 @@ def upsert_product(
         raise RuntimeError(
             f"Failed to upsert product with sku='{clean_product['noon_sku']}'."
         )
+        
 
-    return result.id, bool(result.is_new)
+    return result[0], bool(result[1])
 
 
 # ─── Latest Snapshot ──────────────────────────────────────────
